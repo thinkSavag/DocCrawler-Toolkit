@@ -1,0 +1,28 @@
+# Virtual environment
+.venv/
+__pycache__/
+*.py[cod]
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python dependencies
+*.egg-info/
+dist/
+build/
+
+# Data & logs
+data/raw/
+data/processed/
+data/log/
+output/
+logs/
+
+# IDE/editor
+.vscode/
+*.code-workspace
+
+# Hand-off / internal notes (if you don’t want to check these in)
+internal_Notes/
+Hand-Off\ Notes/
