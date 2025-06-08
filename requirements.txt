@@ -1,0 +1,18 @@
+# HTTP requests & YAML config
+requests>=2.28
+PyYAML>=6.0
+
+# Parsing HTML
+beautifulsoup4>=4.12
+lxml>=4.9    # optional—speeds up BS4 parsing
+
+# Browser automation (only if you switch to Selenium)
+selenium>=4.9
+
+# Templating & document generation
+Jinja2>=3.1
+python-docx>=0.8.11
+docxtpl>=0.17
+
+# (Optional) Pandoc wrapper if you plan to auto-convert Markdown → PDF
+pypandoc>=1.8
