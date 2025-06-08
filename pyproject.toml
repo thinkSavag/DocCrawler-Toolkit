@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "visio-handbook"
+version = "0.1.0"
+description = "A crawler and renderer for Microsoft Visio support docs"
+authors = [
+  { name="Missa", email="you@example.com" }
+]
+readme = "README.md"
+license = "MIT"       # SPDX identifier
+requires-python = ">=3.8"
+dependencies = [
+  "requests",
+  "beautifulsoup4",
+  "jinja2",
+  "docxtpl",
+]
+
+[project.scripts]
+visio-handbook = "visio_handbook.cli:main"
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["visio_handbook*"]
