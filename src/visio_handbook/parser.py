@@ -2,10 +2,11 @@ import json
 import logging
 import os
 import re
+from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup
 
-from utils import load_raw, save_processed, download_image, setup_logging
+from .utils import load_raw, save_processed, download_image, setup_logging
 
 logger = setup_logging()
 
@@ -31,9 +32,14 @@ def parse_html(html: str) -> dict:
     # 4) Extract sidebar TOC links
     toc_links = []
     sidebar = soup.select_one("div.supLeftNavCategory")
+    canonical = soup.find("link", rel="canonical")
+    base_url = canonical["href"] if canonical else ""
     if sidebar:
         for a in sidebar.find_all("a", href=True):
-            toc_links.append(a["href"].split("#")[0])
+            full = urljoin(base_url, a["href"])
+            full = full.split("#")[0].split("?")[0]
+            if urlparse(full).netloc.endswith("support.microsoft.com"):
+                toc_links.append(full)
 
     # 5) Build detailed sections (h2/h3 → paragraphs, tables, images)
     sections = []
@@ -74,7 +80,7 @@ def parse_html(html: str) -> dict:
 
     # 6) Final payload
     payload = {
-        "url": soup.find("link", rel="canonical")["href"],
+        "url": base_url,
         "title": soup.title.string.strip(),
         "metadata": metadata,
         "content": content_html,

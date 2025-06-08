@@ -59,3 +59,22 @@ def load_config(path="configs/crawler.yaml"):
     """Load crawler configuration from ``path``."""
     with open(path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
+
+def get_processed_files(proc_dir="data/processed"):
+    """Return a list of processed JSON file paths."""
+    if not os.path.isdir(proc_dir):
+        return []
+    return [
+        os.path.join(proc_dir, f)
+        for f in os.listdir(proc_dir)
+        if f.endswith(".json")
+    ]
+
+
+def build_context(cfg):
+    """Build template context from configuration."""
+    return {
+        "handbook_title": cfg.get("handbook_title", "Handbook"),
+        "version": cfg.get("version", "1.0"),
+        "author": cfg.get("author", "DocCrawler"),
+    }
