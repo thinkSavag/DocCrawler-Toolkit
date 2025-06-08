@@ -18,7 +18,7 @@ A Python toolkit that crawls Microsoft Support’s Visio documentation—followi
 +  - Downloads all `<img>` assets locally and rewrites references  
 +- **Multi-format Rendering**  
 +  - Markdown (`.md`) via Jinja2 templates  
-+  - Word (`.docx`) via docxtpl and `handbook_template.docx`  
++  - Word (`.docx`) via docxtpl and `visio_handbook_template.docx`  
 +- **Structured Logging**  
 +  - `logger.info` at each major step with timestamps  
 
@@ -53,9 +53,11 @@ delay_seconds: 1.0
   ### 3. Run the crawler
  
  # Markdown output
-python scripts/crawl.py --format md
+DocCrawler --format md
 # Word (.docx) output
-python scripts/crawl.py --format docx
+DocCrawler --format docx
+# Or run without --format and choose interactively
+DocCrawler
 
   ### 4. Inspect results
 - Raw HTML: data/raw/

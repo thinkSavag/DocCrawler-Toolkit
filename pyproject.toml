@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "visio_handbook"
+version = "0.1.0"
+description = "Visio Handbook crawler and renderer"
+authors = [{name = "DocCrawler"}]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+
+[project.scripts]
+DocCrawler = "visio_handbook.cli:main"
+[tool.setuptools.packages.find]
+where = ["src"]

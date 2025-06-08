@@ -11,7 +11,7 @@
 ## Rule 6: Download images locally and update references  
 ## Rule 7: Write parsed JSON files to `data/processed/`  
 ## Rule 8: Emit `logger.info` messages at every major step  
-## Rule 9: Render all pages with `handbook_template.md` **or** `handbook_template.docx` into `/output/handbook.*`  
+## Rule 9: Render all pages with `visio_handbook_template.md` **or** `visio_handbook_template.docx` into `/output/handbook.*`  
 
 ---
 
