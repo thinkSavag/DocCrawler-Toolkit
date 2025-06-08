@@ -59,3 +59,22 @@ def load_config(path="configs/crawler.yaml"):
     """Load crawler configuration from ``path``."""
     with open(path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
+
+
+def get_processed_files(proc_dir="data/processed"):
+    """Return a list of JSON files under ``proc_dir``."""
+    os.makedirs(proc_dir, exist_ok=True)
+    return [
+        os.path.join(proc_dir, f)
+        for f in os.listdir(proc_dir)
+        if f.endswith(".json")
+    ]
+
+
+def build_context(files):
+    """Load pages from ``files`` and return a render context."""
+    pages = []
+    for fp in files:
+        with open(fp, "r", encoding="utf-8") as f:
+            pages.append(json.load(f))
+    return {"pages": pages}

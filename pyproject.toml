@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "visio-handbook"
+version = "0.1.0"
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.28",
+    "PyYAML>=6.0",
+    "beautifulsoup4>=4.12",
+    "lxml>=4.9",
+    "selenium>=4.9",
+    "Jinja2>=3.1",
+    "python-docx>=0.8.11",
+    "docxtpl>=0.17",
+    "pypandoc>=1.8",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+visio-handbook = "visio_handbook.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["visio_handbook*"]
