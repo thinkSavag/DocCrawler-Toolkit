@@ -1,76 +1,67 @@
 # Visio-Handbook
 
-A Python toolkit that crawls Microsoft Visio support pages, extracts headings, text, tables and images, and generates a fully-formatted handbook in Markdown or Word.
+A Python toolkit that crawls Microsoft Support’s Visio documentation—following sidebar TOC links breadth-first—extracts metadata, article content, headers, tables, and images, and renders a structured handbook in Markdown or Word.
 
 ---
 
 ## 📦 Features
 
-- **Crawl** Visio documentation pages starting from a set of URLs in `configs/crawler.yaml`
-- **Parse** out:
-  - Page title (`<h1>`)
-  - Section headings (`<h2>`, `<h3>`)
-  - Paragraph text
-  - Tables (converted to JSON → templated Markdown/Word tables)
-  - Images (downloaded locally)
-- **Render** into:
-  - `output/handbook.md`
-  - `output/handbook.docx`
++- **Configurable Crawl**  
++  - Breadth-first over H1/H2 landing-page links *and* sidebar TOC links (restricted to support.microsoft.com)  
++- **Strict Parsing Scope**  
++  - Metadata from `<head>` + content from `<article>`  
++  - Collect all `<h1>`–`<h6>` as `headers`  
++  - Group `<h2>`/`<h3>` sections with their text, tables, and images  
++- **Duplicate-safe**  
++  - Skips any URL already fetched, even if referenced multiple times  
++- **Image Handling**  
++  - Downloads all `<img>` assets locally and rewrites references  
++- **Multi-format Rendering**  
++  - Markdown (`.md`) via Jinja2 templates  
++  - Word (`.docx`) via docxtpl and `handbook_template.docx`  
++- **Structured Logging**  
++  - `logger.info` at each major step with timestamps  
+
 
 ---
 
 ## 🚀 Quickstart
 
-1. **Clone the repo** (or unzip your code directory):  
-   ```bash
-   git clone https://github.com/<your-username>/Visio-Handbook.git
-   cd Visio-Handbook
+### 1. Clone & setup
 
+ ```bash
+ git clone https://github.com/<your-username>/Visio-Handbook.git
+ cd Visio-Handbook
+ python -m venv .venv
+ # Windows:
+ .venv\Scripts\activate.bat
+ # macOS/Linux:
+ source .venv/bin/activate
+ pip install -r requirements.txt
+ ```
+
+ ### 2. Configure
+ 
+ * Edit configs/crawler.yaml:
+
+ ```bash
+ start_urls:
+  - https://support.microsoft.com/.../select-a-template-in-visio-...
+delay_seconds: 1.0
+ ```
+
+  ### 3. Run the crawler
+ 
+ # Markdown output
+python scripts/crawl.py --format md
+# Word (.docx) output
+python scripts/crawl.py --format docx
+
+  ### 4. Inspect results
+- Raw HTML: data/raw/
+- Parsed JSON: data/processed/
+- Final handbook: output/handbook.md or output/handbook.docx
 
 ---
 
-# Handbook-Generator
-
-A lightweight Python toolkit to crawl web pages, extract structured content (titles, table of contents, sections with text/tables/images), and render polished handbooks in Markdown or Word (`.docx`) via Jinja2/docxtpl templates.
-
----
-
-## Features
-
-- **Configurable crawl** of one or more start URLs (YAML-driven)
-- **Throttled requests** to respect server load
-- **Sidebar & in-page TOC** extraction (H1–H3 hierarchy)
-- **Section parsing**: paragraphs, HTML tables → JSON
-- **Image download** and embedding in final document
-- **Multi-format render**: Markdown (`.md`) or Word (`.docx`)
-- **Structured logging** with console & timestamped log files
-- **Clean directory layout** and `.gitignore` to exclude generated data
-
----
-
-## Prerequisites
-
-- Python 3.8+  
-- Git (to version-control your code)  
-- Optional: Word (to view `.docx`)
-
----
-
-## Installation
-
-```bash
-# 1. Clone or create your repo
-git clone https://github.com/YourUsername/Handbook-Generator.git
-cd Handbook-Generator
-
-# 2. Create & activate a virtual environment
-python -m venv .venv
-# Windows:
-.venv\Scripts\activate.bat
-# macOS/Linux:
-source .venv/bin/activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-"# DocCrawler-Toolkit" 
-"# Visio-Handbook" 
+Feel free to adjust any URLs or add example screenshots of the generated handbook. This revision makes clear the BFS-TOC behavior, parsing scope, duplicate filtering, and dual-format output.
