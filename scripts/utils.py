@@ -1,10 +1,14 @@
+import json
 import logging
 import os
-import json
-import requests
 from datetime import datetime
 
+import requests
+import yaml
+
+
 def setup_logging(log_dir="data/logs"):
+    """Configure console and file logging."""
     os.makedirs(log_dir, exist_ok=True)
     log_path = os.path.join(log_dir, f"{datetime.now():%Y%m%d_%H%M%S}.log")
     logging.basicConfig(
@@ -15,24 +19,31 @@ def setup_logging(log_dir="data/logs"):
             logging.StreamHandler()
         ]
     )
-    return logging.getLogger()
+    return logging.getLogger(__name__)
+
 
 def save_raw(folder, name, text):
+    """Write raw HTML ``text`` to ``folder/name``."""
+    os.makedirs(folder, exist_ok=True)
     with open(os.path.join(folder, name), 'w', encoding='utf-8') as f:
         f.write(text)
 
 
 def load_raw(path):
+    """Read text from ``path``."""
     with open(path, 'r', encoding='utf-8') as f:
         return f.read()
 
 
 def save_processed(folder, name, data):
+    """Serialize ``data`` as JSON to ``folder/name``."""
+    os.makedirs(folder, exist_ok=True)
     with open(os.path.join(folder, name), 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
 def download_image(url, folder):
+    """Download an image to ``folder`` and return its local path."""
     os.makedirs(folder, exist_ok=True)
     fname = url.split('/')[-1]
     path = os.path.join(folder, fname)
@@ -43,10 +54,8 @@ def download_image(url, folder):
         return path
     return ''
 
-# utils.py  (add this at the bottom)
-
-import yaml
 
 def load_config(path="configs/crawler.yaml"):
+    """Load crawler configuration from ``path``."""
     with open(path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
