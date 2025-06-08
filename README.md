@@ -37,7 +37,8 @@ A Python toolkit that crawls Microsoft Support’s Visio documentation—followi
  .venv\Scripts\activate.bat
  # macOS/Linux:
  source .venv/bin/activate
- pip install -r requirements.txt
+  # Install the package in editable mode
+  pip install -e ".[dev]"
  ```
 
  ### 2. Configure
@@ -50,14 +51,22 @@ A Python toolkit that crawls Microsoft Support’s Visio documentation—followi
 delay_seconds: 1.0
  ```
 
-  ### 3. Run the crawler
- 
- # Markdown output
-python scripts/crawl.py --format md
-# Word (.docx) output
-python scripts/crawl.py --format docx
+ ### 3. Run the crawler
 
-  ### 4. Inspect results
+ ```bash
+ # Markdown output
+ visio-handbook --format md
+ # Word (.docx) output
+visio-handbook --format docx
+```
+
+ ### 4. Run tests
+
+ ```bash
+ pytest -q
+ ```
+
+ ### 5. Inspect results
 - Raw HTML: data/raw/
 - Parsed JSON: data/processed/
 - Final handbook: output/handbook.md or output/handbook.docx

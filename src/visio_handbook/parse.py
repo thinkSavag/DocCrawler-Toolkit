@@ -5,7 +5,12 @@ import re
 
 from bs4 import BeautifulSoup
 
-from utils import load_raw, save_processed, download_image, setup_logging
+from visio_handbook.utils import (
+    load_raw,
+    save_processed,
+    download_image,
+    setup_logging,
+)
 
 logger = setup_logging()
 
