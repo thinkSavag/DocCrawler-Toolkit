@@ -2,3 +2,6 @@ start_urls:
   - https://support.microsoft.com/en-us/office/select-a-template-in-visio-75a50ce3-6f12-4cf6-9b96-5e2026b8a3fe
 delay_seconds: 1.0
 output_folder: data/raw
+handbook_title: Visio Handbook
+version: "1.0"
+author: DocCrawler

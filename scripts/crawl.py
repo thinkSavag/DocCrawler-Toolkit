@@ -8,6 +8,8 @@ from jinja2 import Environment, FileSystemLoader
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Inches
 
+from datetime import datetime
+
 from utils import setup_logging, save_raw, load_config
 
 logger = setup_logging()
@@ -39,7 +41,15 @@ def render_md(data_files, template_path, output_path):
     env = Environment(loader=FileSystemLoader('templates'))
     tmpl = env.get_template(template_path)
     pages = [json.load(open(f, 'r', encoding='utf-8')) for f in data_files]
-    out = tmpl.render(pages=pages)
+    cfg = load_config()
+    meta = {
+        'handbook_title': cfg.get('handbook_title', 'Handbook'),
+        'date': datetime.now().strftime('%Y-%m-%d'),
+        'version': cfg.get('version', '1.0'),
+        'author': cfg.get('author', 'Unknown'),
+    }
+    out = tmpl.render(pages=pages, **meta)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w', encoding='utf-8') as fh:
         fh.write(out)
     logger.info(f"✅ Rendered Markdown to {output_path}")
@@ -48,7 +58,14 @@ def render_md(data_files, template_path, output_path):
 def render_docx(data_files, template_path, output_path):
     """Render parsed JSON pages into a Word document."""
     tpl = DocxTemplate(os.path.join('templates', template_path))
-    context = {'pages': []}
+    cfg = load_config()
+    context = {
+        'handbook_title': cfg.get('handbook_title', 'Handbook'),
+        'date': datetime.now().strftime('%Y-%m-%d'),
+        'version': cfg.get('version', '1.0'),
+        'author': cfg.get('author', 'Unknown'),
+        'pages': [],
+    }
     for f in data_files:
         data = json.load(open(f, 'r', encoding='utf-8'))
         for sec in data.get('sections', []):
@@ -56,15 +73,22 @@ def render_docx(data_files, template_path, output_path):
                              for img in sec.get('images', [])]
         context['pages'].append(data)
     tpl.render(context)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     tpl.save(output_path)
     logger.info(f"✅ Rendered DOCX to {output_path}")
 
 
 def main():
-    """Render all processed JSON into the chosen output format."""
+    """Run crawl, parse pages and render the final handbook."""
     parser = argparse.ArgumentParser()
     parser.add_argument('--format', choices=['md', 'docx'], default='md')
     args = parser.parse_args()
+
+    crawl()
+
+    # Parse raw HTML files
+    import parse as parse_mod
+    parse_mod.parse()
 
     proc = 'data/processed'
     data_files = [os.path.join(proc, f) for f in os.listdir(proc)
