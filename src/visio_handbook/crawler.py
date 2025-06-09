@@ -11,8 +11,8 @@ from jinja2 import Environment, FileSystemLoader
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Inches
 
-from utils import setup_logging, save_raw, save_processed, load_config
-import parse as parse_mod
+from visio_handbook.utils import setup_logging, save_raw, save_processed, load_config
+from visio_handbook.parser import parse_html
 
 logger = setup_logging()
 

@@ -4,8 +4,10 @@ import os
 import re
 
 from bs4 import BeautifulSoup
+from visio_handbook.utils import download_image, setup_logging
 
-from utils import load_raw, save_processed, download_image, setup_logging
+from visio_handbook.utils import setup_logging, save_raw, save_processed, load_config
+from visio_handbook.parser import parse_html
 
 logger = setup_logging()
 
