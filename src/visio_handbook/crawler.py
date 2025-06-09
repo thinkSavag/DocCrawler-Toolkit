@@ -1,4 +1,3 @@
-# scripts/crawl.py
 import argparse
 import json
 import os
@@ -11,8 +10,8 @@ from jinja2 import Environment, FileSystemLoader
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Inches
 
-from utils import setup_logging, save_raw, save_processed, load_config
-import parse as parse_mod
+from .utils import setup_logging, save_raw, save_processed, load_config
+from . import parser as parse_mod
 
 logger = setup_logging()
 
