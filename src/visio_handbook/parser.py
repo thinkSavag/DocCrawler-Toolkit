@@ -4,7 +4,7 @@ import os
 import re
 
 from bs4 import BeautifulSoup, Tag
-from soup_utils import safe_find_all, safe_attr, safe_text
+from .soup_utils import safe_find_all, safe_attr, safe_text
 from .utils import load_raw, save_processed, download_image, setup_logging
 
 logger = setup_logging()
